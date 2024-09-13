@@ -343,7 +343,9 @@ class IngestionService(Service):
             self.providers.database.relational.upsert_documents_overview(
                 document_infos
             )
-
+        if chunking_provider:
+            kwargs["chunking_settings"] = chunking_provider
+            kwargs["chunking_provider"] = chunking_provider
         ingestion_results = await self.pipelines.ingestion_pipeline.run(
             input=to_async_generator(
                 [
